@@ -4,8 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.IntDef
 import androidx.annotation.LayoutRes
-import com.senierr.base.widget.R
 
 class MultiStateView @JvmOverloads constructor(
     context: Context,
@@ -152,18 +149,6 @@ class MultiStateView @JvmOverloads constructor(
             else -> contentView?.visibility = View.GONE
         }
     }
-
-//    override fun onSaveInstanceState(): Parcelable? {
-//        return when (val superState = super.onSaveInstanceState()) {
-//            null -> superState
-//            else -> SavedState(superState, viewState)
-//        }
-//    }
-//
-//    override fun onRestoreInstanceState(state: Parcelable) {
-//        super.onRestoreInstanceState(state)
-//        if (state is SavedState) viewState = state.state
-//    }
 
     /* All of the addView methods have been overridden so that it can obtain the content view via XML
      It is NOT recommended to add views into MultiStateView via the addView methods, but rather use
@@ -313,35 +298,5 @@ class MultiStateView @JvmOverloads constructor(
          * @param viewState The [ViewState] that was switched to
          */
         fun onStateChanged(@ViewState viewState: Int)
-    }
-
-    private class SavedState : BaseSavedState {
-        internal val state: Int
-
-        constructor(superState: Parcelable, state: Int) : super(superState) {
-            this.state = state
-        }
-
-        constructor(parcel: Parcel) : super(parcel) {
-            state = parcel.readInt()
-        }
-
-        override fun writeToParcel(out: Parcel, flags: Int) {
-            super.writeToParcel(out, flags)
-            out.writeInt(state)
-        }
-
-        companion object {
-            @JvmField
-            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
-                override fun createFromParcel(`in`: Parcel): SavedState {
-                    return SavedState(`in`)
-                }
-
-                override fun newArray(size: Int): Array<SavedState?> {
-                    return arrayOfNulls(size)
-                }
-            }
-        }
     }
 }
